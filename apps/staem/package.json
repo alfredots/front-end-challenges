@@ -1,5 +1,6 @@
 {
   "name": "@alfredots/staem",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "port=3001 next dev",

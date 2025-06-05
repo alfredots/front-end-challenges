@@ -3,6 +3,9 @@ import { Header } from '@/components/Header'
 import { SideMenu } from '@/components/Sidemenu'
 
 export default function Home() {
+
+  console.log('teste')
+  
   return (
     <div className="w-full h-screen bg-gradient flex">
       <SideMenu />

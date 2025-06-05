@@ -1,0 +1,64 @@
+name: Deploy Apps Separados
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  detect-changes:
+    name: Detectar Apps Alterados
+    runs-on: ubuntu-latest
+    outputs:
+      adventure-together: ${{ steps.filter.outputs.adventure-together }}
+      staem: ${{ steps.filter.outputs.staem }}
+      unx-app: ${{ steps.filter.outputs.unx-app }}
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Detectar alterações
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          base: ${{ github.event.before }}
+          filters: |
+            adventure-together:
+              - 'apps/adventure-together/**'
+            staem:
+              - 'apps/staem/**'
+            unx-app:
+              - 'apps/unx-app/**'
+
+  deploy-adventure-together:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.adventure-together == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Deploy Adventure Together
+        run: echo "🚀 Deployando Adventure Together..."
+
+  deploy-staem:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.staem == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Deploy STAEM
+        run: echo "🚀 Deployando Staem..."
+
+  deploy-unx-app:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.unx-app == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Deploy UNX APP
+        run: echo "🚀 Deployando UNX APP..."
